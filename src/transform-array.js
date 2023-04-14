@@ -25,14 +25,14 @@ function transform(arr) {
     if (array[i] === '--discard-next' && i + 1 !== array.length) {
       array.splice(i + 1, 1);
     }
-    if (array[i] === '--double-prev' && i !== 0) {
-      array.splice(i - 1, 0, i - 1);
+    if (array[i] === '--double-prev' && i !== 0 && typeof array[i - 1] === 'number') {
+      array.splice(i, 1, array[i - 1]);
     }
     if (array[i] === '--double-next' && i + 1 !== array.length) {
-      array.splice(i + 1, 0, i + 1);
+      array.splice(i + 1, 0, array[i + 1]);
     }
   }
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; ) {
     if (
       array[i] === '--discard-prev' ||
       array[i] === '--discard-next' ||
@@ -40,6 +40,8 @@ function transform(arr) {
       array[i] === '--double-next'
     ) {
       array.splice(i, 1);
+    } else {
+      i++;
     }
   }
   return array;
